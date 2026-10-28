@@ -5,7 +5,7 @@ description: Plan, produce, and quality-check short-form advertising or social v
 
 # ViStudi — creative production studio
 
-Run ViStudi as a fixed six-seat production system: one coordinator plus exactly five subagents. For every task that invokes ViStudi, the coordinator dispatches exactly one subagent into each permanent seat described in `agents/`; all five assignments are required, even when a seat's contribution is a brief bounded assessment. Never dispatch a sixth subagent, omit a seat, or create temporary replacement roles. If the runtime cannot launch exactly five subagents, stop delegation, explain the limitation, and ask whether the user wants a revised approach; do not silently simulate or change the count. The coordinator is the director and is not included in the five-subagent count. Keep seats permanent; task-specific focus may vary, role identity and ownership do not.
+Run ViStudi as a fixed six-seat production system: one coordinator plus exactly five subagents. For every task that invokes ViStudi, the coordinator dispatches exactly one subagent into each permanent seat described in `agents/`; all five assignments are required, even when a seat's contribution is a brief bounded assessment. Never dispatch a sixth subagent, omit a seat, or create temporary replacement roles. If the runtime cannot launch five real agents, state the limitation and continue useful work in limited coordinator-only mode; do not simulate agents or claim delegation succeeded. The coordinator is the director and is not included in the five-subagent count. Keep seats permanent; task-specific focus may vary, role identity and ownership do not.
 
 Read all five role READMEs before dispatch. They define distinct ownership, required inputs/outputs, interfaces, handoffs, and completion checks. The coordinator owns brief, dispatch, integration and final delivery. Make outputs feel considered: understand the message, make choices for a reason, and integrate specialist work rather than stacking generic suggestions.
 
@@ -19,7 +19,7 @@ Write a short shared brief and keep it authoritative. Mark assumptions and decis
 
 ## Fixed five-agent orchestration
 
-Use real subagent delegation for all five seats. ViStudi requires five simultaneous or staged subagent assignments per task; concurrency limits affect scheduling only, never the required count. If a role is low relevance, its bounded assignment must still produce a relevant assessment or explicitly state why no artifact is needed. Do not use a subagent as a substitute coordinator. If tools cannot create five subagents, say so and do not claim ViStudi orchestration succeeded.
+Use real delegation for all five seats when authorized and available. Otherwise use the transparent limited mode. ViStudi requires five simultaneous or staged subagent assignments per task; concurrency limits affect scheduling only, never the required count. If a role is low relevance, its bounded assignment must still produce a relevant assessment or explicitly state why no artifact is needed. Do not use a subagent as a substitute coordinator. If tools cannot create five subagents, say so and continue coordinator-only work without claiming orchestration succeeded. The optional Python CLI launches independent Codex local sessions, not native subagents; see README for its requirements and limitations.
 
 Give each delegated task a compact handoff containing:
 
@@ -75,3 +75,7 @@ Use a project-specific `vistudi/` folder when useful and when it will not overwr
 Set a modest tool/time budget appropriate to the request. As a default, give each role one bounded assignment, allow at most two correction rounds per deliverable, and retry a failed call only once after diagnosing a likely transient failure. These are workflow caps, not promises about token or monetary use. Track known costs and do not invent quotas. Stop on repeated errors, missing capability, unknown paid cost, or lack of measurable progress; report the blocker and next step. Ask before expanding scope, using paid credits, publishing, or exceeding a user-specified budget. External sending or publishing requires explicit authorization for the exact action and content.
 
 For audio service procedures, read [references/audio-bridge.md](references/audio-bridge.md). For task handoffs, workspace, budget, and detailed QA, read [references/production.md](references/production.md).
+
+## Executable utilities
+
+Use `python -m vistudi --help` for local coordination, audio and media QA. The default coordinator creates handoffs without model calls. The optional Codex local-provider mode launches five independent sessions sequentially and records their actual responses or failures; it does not automatically integrate them. Verify provider costs and authorization before enabling it. `qa` checks metadata and decoding only; subjective and content checks remain manual. Local eSpeak and verified file import are the available audio adapters; neither is an automatic ChatGPT or ElevenLabs integration.
