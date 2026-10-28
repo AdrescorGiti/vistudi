@@ -1,24 +1,31 @@
 # ViStudi
 
-ViStudi is a creative production skill for planning and producing short-form video. It uses one coordinator and a permanent roster of exactly five specialist subagents. The coordinator is outside the count; all five seats are dispatched for every ViStudi task.
+ViStudi is a video production skill with a coordinator and exactly five permanent specialist roles. The coordinator remains responsible for reviewing and integrating their work.
 
-## Permanent agent roster
+1. [Creative Director and Brief Owner](agents/01-director/README.md)
+2. [Visual Designer and Asset Steward](agents/02-visual-designer/README.md)
+3. [Storyboard, Motion, and Edit Specialist](agents/03-story-editor/README.md)
+4. [Sound, Voice, and Music Producer](agents/04-sound-producer/README.md)
+5. [Production Pipeline and Quality Engineer](agents/05-pipeline-qa/README.md)
 
-1. [Creative Director and Brief Owner](agents/01-director/README.md) — audience insight, concept, requirements and creative rationale.
-2. [Visual Designer and Asset Steward](agents/02-visual-designer/README.md) — visual system, style frames, assets and provenance.
-3. [Storyboard, Motion, and Edit Specialist](agents/03-story-editor/README.md) — timed sequence, edit, motion and render.
-4. [Sound, Voice, and Music Producer](agents/04-sound-producer/README.md) — dialogue, sound cues, audio assets, cost and rights.
-5. [Production Pipeline and Quality Engineer](agents/05-pipeline-qa/README.md) — feasibility, integration and evidence-based QA.
+## Run locally
 
-These five role files are the complete roster. Read them alongside [`SKILL.md`](SKILL.md). Orchestration, handoffs, conflict resolution, and delivery details are in [`references/production.md`](references/production.md).
+Requires Python 3.10+, ffmpeg and ffprobe. Local speech additionally requires eSpeak NG or eSpeak. Run from the repository root:
 
-## Workflow
+```sh
+python -m vistudi run --brief brief.md --workspace /tmp/vistudi-project
+python -m vistudi qa /path/to/export.mp4
+python -m vistudi speak --text-file narration.txt --output /tmp/voice.wav
+python -m vistudi import-audio /path/to/received.wav /tmp/imported.wav
+python -m unittest discover -s tests -v
+```
 
-Inspect the brief and assets, dispatch exactly one bounded assignment to each seat, integrate their work against one shared brief, produce approved artifacts, verify acceptance criteria, and deliver actual files with evidence and limitations. If the runtime cannot dispatch exactly five real subagents, report that limitation without simulating a team.
+The workspace must not exist already. The default run creates five handoffs and `status.json` in **limited** mode; it does not call a model or pretend specialists worked. The coordinator can use those handoffs for manual work.
 
-Each seat has distinct output ownership. Keep project files in a task-specific workspace and follow the existing project layout. The default handoff pattern and QA contract are defined in the skill references.
+To explicitly run five sequential, separate real Codex CLI sessions, install and configure Codex and a local Ollama or LM Studio provider, then add `--local-provider ollama` or `--local-provider lmstudio`. This uses `codex exec --oss --local-provider` in read-only mode; each session produces a separate response file. The local server and model must already be available. Sessions are independent, not native child subagents of this coordinator; downstream integration and evaluation remain manual. The coordinator records failures and reports limited mode if any session fails. Provider configuration and execution can have resource or other costs; verify them before opting in. The project makes no cloud model calls itself. Never opt in when doing so would incur unapproved costs.
 
+QA reports ffprobe metadata, positive duration, and a full ffmpeg audio/video decode; its `passed` means only these checks passed. It does not judge content, sync, clipping, rights, or visual quality. Audio import verifies and copies an existing local file: it is a manual handoff, not a ChatGPT connection. The eSpeak adapter generates local WAV speech; it does not offer ElevenLabs or claim voice licensing. See [audio details](references/audio-bridge.md), [production contract](references/production.md), and [SKILL.md](SKILL.md).
 
-## Credits
+## Verification limits
 
-ViStudi was created with AI assistance. [**Codex (OpenAI)**](https://github.com/codex) contributed to the skill design, role definitions, and documentation. The repository was published through the project maintainer's GitHub account.
+Tests generate real audio locally for QA and eSpeak when installed. The Codex command integration is tested with a local stand-in executable; CI does not launch models or prove that a particular user's local provider is configured. No paid service credentials are required.
