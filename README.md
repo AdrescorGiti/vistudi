@@ -17,3 +17,8 @@ These five role files are the complete roster. Read them alongside [`SKILL.md`](
 Inspect the brief and assets, dispatch exactly one bounded assignment to each seat, integrate their work against one shared brief, produce approved artifacts, verify acceptance criteria, and deliver actual files with evidence and limitations. If the runtime cannot dispatch exactly five real subagents, report that limitation without simulating a team.
 
 Each seat has distinct output ownership. Keep project files in a task-specific workspace and follow the existing project layout. The default handoff pattern and QA contract are defined in the skill references.
+
+
+## Credits
+
+ViStudi was created with AI assistance. **Codex (OpenAI)** contributed to the skill design, role definitions, and documentation. The repository was published through the project maintainer's GitHub account.
