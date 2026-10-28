@@ -21,4 +21,4 @@ Each seat has distinct output ownership. Keep project files in a task-specific w
 
 ## Credits
 
-ViStudi was created with AI assistance. **Codex (OpenAI)** contributed to the skill design, role definitions, and documentation. The repository was published through the project maintainer's GitHub account.
+ViStudi was created with AI assistance. [**Codex (OpenAI)**](https://github.com/codex) contributed to the skill design, role definitions, and documentation. The repository was published through the project maintainer's GitHub account.
