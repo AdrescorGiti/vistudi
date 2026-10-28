@@ -1,0 +1,24 @@
+# Production contract
+
+## Fixed roster and coordinator boundary
+The roster is exactly five permanent subagents, defined by the five README files in `agents/`: 01 Creative Director and Brief Owner; 02 Visual Designer and Asset Steward; 03 Storyboard, Motion, and Edit Specialist; 04 Sound, Voice, and Music Producer; 05 Production Pipeline and Quality Engineer. The coordinator is a separate role outside the subagent count.
+
+For every ViStudi task, dispatch exactly one task to every seat. Dispatch may be sequential when runtime concurrency is limited, but the total remains five distinct subagent assignments. If exactly five cannot be dispatched, stop and report the capability limit; do not claim a ViStudi team run or silently convert roles into simulated perspectives. No seat may delegate recursively or spawn a substitute.
+
+## Dispatch and integration protocol
+Before dispatch, coordinator sets a task ID, approved brief, output paths, acceptance criteria, bounded time/cost, dependencies, and a common handoff schema. Dispatch all five seats; parallelize independent analysis, then pass approved upstream outputs to dependent seats. Every seat must return either an artifact/assessment or a clear partial/blocked status. The coordinator checks each response against the assigned role and source evidence, integrates to one authoritative plan, resolves conflicts, and records any decision that changes a requirement. One owner per file; no shared-file editing.
+
+Use this compact dispatch contract for each role: `task_id`, `role`, `goal`, `brief`, `inputs`, `owned_outputs`, `acceptance`, `dependencies`, `tool/cost boundary`, `deadline`, `return fields`. Completion handoff fields: `task_id`, `role`, `status (done/partial/blocked)`, `outputs`, `evidence`, `assumptions`, `provenance/rights`, `issues`, `next recipient`.
+
+Conflict resolution order: (1) user requirements and rights/safety constraints; (2) verified facts and platform acceptance criteria; (3) agreed concept and production plan; (4) specialist craft preference. Specialists state the conflicting options and impact; coordinator decides and records a short rationale. Reopen settled choices only for new evidence or a demonstrated acceptance failure.
+
+## Workspace and handoff
+Use a project-specific `vistudi/` directory when appropriate, without overwriting existing work: `brief.md`, `plan.md`, `handoffs/`, `visual/`, `motion/`, `audio/`, `qa/`, `exports/`. Adapt to existing conventions. The director keeps brief and plan authoritative. Do not put secrets in artifacts. Do not have multiple agents edit the same file concurrently; each writes within assigned paths and reports results to the director. Preserve source files and existing user changes.
+
+Every task assignment includes: ID, owner, goal, inputs and exact locations, output paths/formats, acceptance criteria, dependencies, allowed tools and cost boundary. Every completion handoff includes: ID, status (done/partial/blocked), output paths, format and duration where relevant, verification/evidence, assumptions, rights or provenance, remaining issues, and next recipient. Verify each output exists before marking done. Record revisions and synchronize shared brief decisions before downstream work.
+
+## Budget and termination
+Default to one bounded task per role, at most two correction rounds per deliverable and one retry of a failed tool call after diagnosing a transient failure. Reuse completed work; do not spawn duplicate roles or recursively delegate. Director sets a small call/time budget appropriate to the project; if user supplies a stricter limit, obey it. These are workflow caps, not a guarantee of measurable token or monetary consumption. Track known tool use and expenditures; do not invent remaining quotas. Stop retries on repeated errors, missing capability, uncertain cost or no measurable progress. Report partial work, blocker and specific next step. Ask before expanding scope, using paid credits, or increasing an explicit user budget. Do not loop indefinitely waiting for another agent or external response.
+
+## QA and delivery
+QA checks actual deliverables against agreed requirements: factual claims and names, missing assets and permissions, readability/safe areas, timings and sync, audio intelligibility and clipping, aspect ratio, resolution, frame rate, codec, duration, file integrity and playback as applicable. Use available inspection tools and a representative visual/audio review; state checks not possible. Test a short render before a costly full render when appropriate. Classify defects as blocking or nonblocking, fix within the correction budget and recheck affected portions. Deliver sources and export paths, tests actually performed, open issues and any assumptions. Never report a final render or playback check that did not happen.
